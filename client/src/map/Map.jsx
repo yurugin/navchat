@@ -20,8 +20,22 @@ function Map () {
     leaflet
       .tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png')
       .addTo(mapBase);
+
+    const handleClick = (e) => {
+      const isProceed = confirm('Add a marker?', 'Yes', 'Cancel')
+      console.log(e.latlng)
+      if (!isProceed) return
+      const { lat, lng } = e.latlng
+      const markerName = prompt('Name of Marker?', '')
+      const marker = leaflet
+        .marker([lat, lng])
+        .addTo(mapBase)
+      marker.bindPopup(markerName)
+    }
+
+    mapBase.on('click', handleClick)
   }, [])
-  
+
   const mapReservedHeight = { height: 400 }
   
   return (
